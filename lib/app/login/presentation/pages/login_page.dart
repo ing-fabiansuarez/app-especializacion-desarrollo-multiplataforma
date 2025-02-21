@@ -7,29 +7,81 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        children: [HeaderLoginWidget(), BodyLoginWidget(), FooterLoginWidget()],
+      ),
+    );
+  }
+}
+
+class FooterLoginWidget extends StatelessWidget {
+  const FooterLoginWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 100,
+      child: Column(
         children: [
-          HeaderLoginWidget(),
-          Container(
-            margin: EdgeInsets.only(right: 32.0, left: 32.0, top: 80),
-            child: Column(
-              children: [
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: "Email",
-                    icon: Icon(Icons.person),
-                    hintText: "Escribir su email",
-                  ),
-                  keyboardType: TextInputType.emailAddress,
+          Divider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Aún no tiene cuenta"),
+              SizedBox(width: 32),
+              Text(
+                "Registrate acá",
+                style: TextStyle(
+                  color: Colors.purple,
+                  decoration: TextDecoration.underline,
                 ),
-                TextField(decoration: InputDecoration(labelText: "Contraseña")),
-                FilledButton(
-                  onPressed: () => {},
-                  child: Text("Iniciar Sesion"),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class BodyLoginWidget extends StatelessWidget {
+  const BodyLoginWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        margin: EdgeInsets.only(right: 32.0, left: 32.0, top: 80),
+        child: Column(
+          children: [
+            TextField(
+              decoration: InputDecoration(
+                labelText: "Email",
+                icon: Icon(Icons.person),
+                hintText: "Escribir su email",
+              ),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            SizedBox(height: 16.0),
+            TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: "Password:",
+                icon: Icon(Icons.lock),
+                hintText: "Escribir su email",
+                suffixIcon: Icon(Icons.visibility_off),
+              ),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            SizedBox(height: 16.0),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: () => {},
+                child: Text("Iniciar Sesion"),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
