@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -28,11 +29,14 @@ class FooterLoginWidget extends StatelessWidget {
             children: [
               Text("Aún no tiene cuenta"),
               SizedBox(width: 32),
-              Text(
-                "Registrate acá",
-                style: TextStyle(
-                  color: Colors.purple,
-                  decoration: TextDecoration.underline,
+              GestureDetector(
+                onTap: () => {GoRouter.of(context).pushNamed("sign-up")},
+                child: Text(
+                  "Registrate acá",
+                  style: TextStyle(
+                    color: Colors.purple,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
             ],
