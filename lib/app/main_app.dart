@@ -21,3 +21,15 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(routerConfig: router);
   }
 }
+
+class TestStateful extends StatefulWidget {
+  @override
+  State<TestStateful> createState() => TestStatefulState();
+}
+
+class TestStatefulState extends State<TestStateful> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}

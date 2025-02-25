@@ -47,8 +47,15 @@ class FooterLoginWidget extends StatelessWidget {
   }
 }
 
-class BodyLoginWidget extends StatelessWidget {
-  const BodyLoginWidget({super.key});
+class BodyLoginWidget extends StatefulWidget {
+  BodyLoginWidget({super.key});
+
+  @override
+  State<BodyLoginWidget> createState() => _BodyLoginWidgetState();
+}
+
+class _BodyLoginWidgetState extends State<BodyLoginWidget> {
+  bool showPassword = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +74,21 @@ class BodyLoginWidget extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             TextField(
-              obscureText: true,
+              obscureText: !showPassword,
               decoration: InputDecoration(
                 labelText: "Password:",
                 icon: Icon(Icons.lock),
                 hintText: "Escribir su email",
-                suffixIcon: Icon(Icons.visibility_off),
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      showPassword = !showPassword;
+                    });
+                  },
+                  child: Icon(
+                    showPassword ? Icons.visibility : Icons.visibility_off,
+                  ),
+                ),
               ),
               keyboardType: TextInputType.emailAddress,
             ),

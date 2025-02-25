@@ -7,15 +7,33 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("Página de registro", style: TextStyle(fontSize: 48.0)),
-          FilledButton(
-            onPressed: () => {GoRouter.of(context).pop()},
-            child: Text("Ir a login"),
-          ),
-        ],
+      appBar: AppBar(title: Text('Registro de Usuario')),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(decoration: InputDecoration(labelText: 'Nombre')),
+            TextField(
+              decoration: InputDecoration(labelText: 'Correo Electrónico'),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: 'Contraseña'),
+              obscureText: true,
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: 'Verificar Contraseña'),
+              obscureText: true,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'URL de la Imagen de Perfil',
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(onPressed: () {}, child: Text('Registrarse')),
+          ],
+        ),
       ),
     );
   }
