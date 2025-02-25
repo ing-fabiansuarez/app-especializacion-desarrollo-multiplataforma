@@ -79,10 +79,15 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> {
                 labelText: "Password:",
                 icon: Icon(Icons.lock),
                 hintText: "Escribir su email",
-                suffixIcon: GestureDetector(
+                suffixIcon: InkWell(
                   onTap: () {
                     setState(() {
                       showPassword = !showPassword;
+                      Future.delayed(Duration(seconds: 3), () {
+                        setState(() {
+                          showPassword = false;
+                        });
+                      });
                     });
                   },
                   child: Icon(
