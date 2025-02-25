@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -55,7 +57,8 @@ class BodyLoginWidget extends StatefulWidget {
 }
 
 class _BodyLoginWidgetState extends State<BodyLoginWidget> {
-  bool showPassword = false;
+  bool _showPassword = false;
+  Timer? _autoShowTimer;
 
   @override
   Widget build(BuildContext context) {
@@ -74,24 +77,25 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> {
             ),
             SizedBox(height: 16.0),
             TextField(
-              obscureText: !showPassword,
+              obscureText: !_showPassword,
               decoration: InputDecoration(
                 labelText: "Password:",
                 icon: Icon(Icons.lock),
                 hintText: "Escribir su email",
                 suffixIcon: InkWell(
                   onTap: () {
-                    setState(() {
-                      showPassword = !showPassword;
-                      Future.delayed(Duration(seconds: 3), () {
-                        setState(() {
-                          showPassword = false;
-                        });
+                    _autoShowTimer?.cancel();
+                    if (!_showPassword) {
+                      _autoShowTimer = Timer(Duration(seconds: 3), () {
+                        _showPassword = false;
                       });
+                    }
+                    setState(() {
+                      _showPassword = !_showPassword;
                     });
                   },
                   child: Icon(
-                    showPassword ? Icons.visibility : Icons.visibility_off,
+                    _showPassword ? Icons.visibility : Icons.visibility_off,
                   ),
                 ),
               ),
