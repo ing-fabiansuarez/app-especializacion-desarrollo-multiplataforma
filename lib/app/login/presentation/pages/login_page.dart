@@ -72,14 +72,7 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> {
           child: Column(
             children: [
               TextFormField(
-                validator: (value) {
-                  value ??= "";
-                  value = value.replaceAll(" ", "");
-                  final bool isValid = RegExp(
-                    r"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
-                  ).hasMatch(value);
-                  return !isValid ? "Email Invalido" : null;
-                },
+                validator: _validateEmail,
                 decoration: InputDecoration(
                   labelText: "Email",
                   icon: Icon(Icons.person),
@@ -89,15 +82,7 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> {
               ),
               SizedBox(height: 16.0),
               TextFormField(
-                validator: (value) {
-                  value = value ?? "";
-                  value = value.replaceAll(" ", "");
-                  if (value.length < 8) {
-                    return "Debe tener más de 8 caracteres";
-                  }
-
-                  return null;
-                },
+                validator: _validatePassword,
                 obscureText: !_showPassword,
                 decoration: InputDecoration(
                   labelText: "Password:",
@@ -135,6 +120,25 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> {
         ),
       ),
     );
+  }
+
+  String? _validatePassword(value) {
+    value = value ?? "";
+    value = value.replaceAll(" ", "");
+    if (value.length < 8) {
+      return "Debe tener más de 8 caracteres";
+    }
+
+    return null;
+  }
+
+  String? _validateEmail(value) {
+    value ??= "";
+    value = value.replaceAll(" ", "");
+    final bool isValid = RegExp(
+      r"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+    ).hasMatch(value);
+    return !isValid ? "Email Invalido" : null;
   }
 }
 
