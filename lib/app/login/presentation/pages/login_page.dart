@@ -60,56 +60,78 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> {
   bool _showPassword = false;
   Timer? _autoShowTimer;
 
+  final keyForm = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(right: 32.0, left: 32.0, top: 80),
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                labelText: "Email",
-                icon: Icon(Icons.person),
-                hintText: "Escribir su email",
+        child: Form(
+          key: keyForm,
+          child: Column(
+            children: [
+              TextFormField(
+                validator: (value) {
+                  value ??= "";
+                  value = value.replaceAll(" ", "");
+                  final bool isValid = RegExp(
+                    r"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
+                  ).hasMatch(value);
+                  return !isValid ? "Email Invalido" : null;
+                },
+                decoration: InputDecoration(
+                  labelText: "Email",
+                  icon: Icon(Icons.person),
+                  hintText: "Escribir su email",
+                ),
+                keyboardType: TextInputType.emailAddress,
               ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            SizedBox(height: 16.0),
-            TextField(
-              obscureText: !_showPassword,
-              decoration: InputDecoration(
-                labelText: "Password:",
-                icon: Icon(Icons.lock),
-                hintText: "Escribir su email",
-                suffixIcon: InkWell(
-                  onTap: () {
-                    _autoShowTimer?.cancel();
-                    if (!_showPassword) {
-                      _autoShowTimer = Timer(Duration(seconds: 3), () {
-                        _showPassword = false;
+              SizedBox(height: 16.0),
+              TextFormField(
+                validator: (value) {
+                  value = value ?? "";
+                  value = value.replaceAll(" ", "");
+                  if (value.length < 8) {
+                    return "Debe tener más de 8 caracteres";
+                  }
+
+                  return null;
+                },
+                obscureText: !_showPassword,
+                decoration: InputDecoration(
+                  labelText: "Password:",
+                  icon: Icon(Icons.lock),
+                  hintText: "Escribir su email",
+                  suffixIcon: InkWell(
+                    onTap: () {
+                      _autoShowTimer?.cancel();
+                      if (!_showPassword) {
+                        _autoShowTimer = Timer(Duration(seconds: 3), () {
+                          _showPassword = false;
+                        });
+                      }
+                      setState(() {
+                        _showPassword = !_showPassword;
                       });
-                    }
-                    setState(() {
-                      _showPassword = !_showPassword;
-                    });
-                  },
-                  child: Icon(
-                    _showPassword ? Icons.visibility : Icons.visibility_off,
+                    },
+                    child: Icon(
+                      _showPassword ? Icons.visibility : Icons.visibility_off,
+                    ),
                   ),
                 ),
+                keyboardType: TextInputType.emailAddress,
               ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            SizedBox(height: 16.0),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: () => {},
-                child: Text("Iniciar Sesion"),
+              SizedBox(height: 16.0),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () => {keyForm.currentState?.validate()},
+                  child: Text("Iniciar Sesion"),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
