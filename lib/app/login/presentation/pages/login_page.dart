@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:storeapp/app/login/presentation/pages/login_mixin.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -56,7 +57,7 @@ class BodyLoginWidget extends StatefulWidget {
   State<BodyLoginWidget> createState() => _BodyLoginWidgetState();
 }
 
-class _BodyLoginWidgetState extends State<BodyLoginWidget> {
+class _BodyLoginWidgetState extends State<BodyLoginWidget> with LoginMixin {
   bool _showPassword = false;
   Timer? _autoShowTimer;
 
@@ -72,7 +73,7 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> {
           child: Column(
             children: [
               TextFormField(
-                validator: _validateEmail,
+                validator: validateEmail,
                 decoration: InputDecoration(
                   labelText: "Email",
                   icon: Icon(Icons.person),
@@ -82,7 +83,7 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> {
               ),
               SizedBox(height: 16.0),
               TextFormField(
-                validator: _validatePassword,
+                validator: validatePassword,
                 obscureText: !_showPassword,
                 decoration: InputDecoration(
                   labelText: "Password:",
@@ -120,25 +121,6 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> {
         ),
       ),
     );
-  }
-
-  String? _validatePassword(value) {
-    value = value ?? "";
-    value = value.replaceAll(" ", "");
-    if (value.length < 8) {
-      return "Debe tener más de 8 caracteres";
-    }
-
-    return null;
-  }
-
-  String? _validateEmail(value) {
-    value ??= "";
-    value = value.replaceAll(" ", "");
-    final bool isValid = RegExp(
-      r"^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$",
-    ).hasMatch(value);
-    return !isValid ? "Email Invalido" : null;
   }
 }
 
