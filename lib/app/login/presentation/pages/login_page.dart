@@ -60,11 +60,15 @@ class BodyLoginWidget extends StatefulWidget {
 class _BodyLoginWidgetState extends State<BodyLoginWidget> with LoginMixin {
   bool _showPassword = false;
   Timer? _autoShowTimer;
+  String _email = "";
+  String _password = "";
 
   final keyForm = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    final bool isValidForm =
+        validateEmail(_email) == null && validatePassword(_password) == null;
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(right: 32.0, left: 32.0, top: 80),
@@ -73,6 +77,11 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> with LoginMixin {
           child: Column(
             children: [
               TextFormField(
+                onChanged:
+                    (value) => setState(() {
+                      _email = value;
+                    }),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: validateEmail,
                 decoration: InputDecoration(
                   labelText: "Email",
@@ -83,6 +92,11 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> with LoginMixin {
               ),
               SizedBox(height: 16.0),
               TextFormField(
+                onChanged:
+                    (value) => setState(() {
+                      _password = value;
+                    }),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: validatePassword,
                 obscureText: !_showPassword,
                 decoration: InputDecoration(
@@ -109,12 +123,9 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> with LoginMixin {
                 keyboardType: TextInputType.emailAddress,
               ),
               SizedBox(height: 16.0),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () => {keyForm.currentState?.validate()},
-                  child: Text("Iniciar Sesion"),
-                ),
+              FilledButton(
+                onPressed: isValidForm ? () => {} : null,
+                child: Text("Iniciar Sesion"),
               ),
             ],
           ),
