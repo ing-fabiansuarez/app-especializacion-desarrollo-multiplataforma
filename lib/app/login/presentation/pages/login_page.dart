@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:storeapp/app/login/presentation/bloc/login_bloc.dart';
+import 'package:storeapp/app/login/presentation/bloc/login_state.dart';
 import 'package:storeapp/app/login/presentation/pages/login_mixin.dart';
 
 class LoginPage extends StatelessWidget {
@@ -9,9 +12,16 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [HeaderLoginWidget(), BodyLoginWidget(), FooterLoginWidget()],
+    return BlocProvider.value(
+      value: LoginBloc(),
+      child: Scaffold(
+        body: Column(
+          children: [
+            HeaderLoginWidget(),
+            BodyLoginWidget(),
+            FooterLoginWidget(),
+          ],
+        ),
       ),
     );
   }
@@ -67,8 +77,17 @@ class _BodyLoginWidgetState extends State<BodyLoginWidget> with LoginMixin {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<LoginBloc>();
+
     final bool isValidForm =
         validateEmail(_email) == null && validatePassword(_password) == null;
+
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        return Expanded(child: Text("data"));
+      },
+    );
+
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(right: 32.0, left: 32.0, top: 80),
